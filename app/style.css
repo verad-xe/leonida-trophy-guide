@@ -1,0 +1,329 @@
+/* Leonida Legend — original dark theme.
+   Deep indigo / near-black background, sunset magenta-to-amber gradient accents,
+   system fonts only, no external assets of any kind. */
+
+:root {
+  --bg: #0d0b1e;
+  --bg-soft: #161230;
+  --surface: #1c1838;
+  --surface-2: #241f47;
+  --border: #3a3370;
+  --text: #f2efff;
+  --muted: #b9b3dd;
+  --accent: #ff5e8a;
+  --accent-2: #ffb347;
+  --platinum: #bfeef2;
+  --gold: #ffd75e;
+  --silver: #cfd6e4;
+  --bronze: #e09a5f;
+  --danger: #ff6b6b;
+  --focus: #7ee0ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: 16px 24px 12px;
+  background:
+    radial-gradient(900px 320px at 85% -60px, rgba(255, 94, 138, 0.35), transparent 60%),
+    radial-gradient(700px 300px at 8% -40px, rgba(255, 179, 71, 0.22), transparent 60%),
+    linear-gradient(180deg, #171233, var(--bg));
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent-2);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0 0 6px;
+  font-size: 1.65rem;
+  line-height: 1.15;
+  background: linear-gradient(90deg, #ff5e8a, #ffb347 55%, #ffe29a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.intro {
+  margin: 0 0 12px;
+  max-width: 880px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.jump-highlight {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+.progress-panel {
+  max-width: 880px;
+  background: rgba(28, 24, 56, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.progress-big { font-size: 1.25rem; font-weight: 800; }
+.progress-pct {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent-2);
+}
+
+.progress-bar {
+  margin: 10px 0 8px;
+  height: 12px;
+  border-radius: 999px;
+  background: #0a0820;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.3s ease;
+}
+
+.grade-counts { margin: 0 0 10px; color: var(--muted); font-size: 0.9rem; }
+
+.progress-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+button, .import-label {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 7px 13px;
+  cursor: pointer;
+}
+
+button:hover, .import-label:hover { border-color: var(--accent); }
+
+/* ---------- Tabs ---------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 24px 0;
+}
+
+.tabs button {
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+
+.tabs button.active {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #22102e;
+  border-color: transparent;
+}
+
+/* ---------- Views & controls ---------- */
+
+main { padding: 16px 24px 32px; }
+
+.view h2 { margin: 4px 0 12px; font-size: 1.5rem; }
+.view-lede { max-width: 880px; color: var(--muted); }
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: end;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.controls label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.controls .check-label { flex-direction: row; align-items: center; gap: 7px; padding-bottom: 8px; color: var(--text); }
+.controls .search-label { flex: 1 1 240px; }
+
+.controls input[type="search"], .controls select {
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 10px;
+}
+
+.controls input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+
+.result-line { color: var(--muted); font-size: 0.92rem; margin: 4px 0 12px; }
+
+/* ---------- Trophy cards ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.card, .info-card, .stage-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.card { border-top: 4px solid var(--border); }
+.card.grade-platinum { border-top-color: var(--platinum); }
+.card.grade-gold { border-top-color: var(--gold); }
+.card.grade-silver { border-top-color: var(--silver); }
+.card.grade-bronze { border-top-color: var(--bronze); }
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.earned-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.earned-label input { width: 19px; height: 19px; accent-color: var(--accent-2); }
+
+.trophy-name { margin: 0 0 4px; font-size: 1.12rem; line-height: 1.3; }
+.trophy-desc { margin: 0 0 10px; color: var(--muted); font-style: italic; }
+
+.spoiler-blur { filter: blur(1px); color: var(--muted); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+
+.chip {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.chip-missable { background: #4a1626; border-color: var(--danger); color: #ffb3b3; }
+.chip-stage { color: var(--accent-2); }
+button.chip-link { cursor: pointer; color: var(--text); font-size: 0.8rem; }
+button.chip-link:hover { border-color: var(--accent-2); color: var(--accent-2); }
+
+.badge-platinum { background: #123a40; color: var(--platinum); border-color: var(--platinum); }
+.badge-gold { background: #40360f; color: var(--gold); border-color: var(--gold); }
+.badge-silver { background: #2c3242; color: var(--silver); border-color: var(--silver); }
+.badge-bronze { background: #402612; color: var(--bronze); border-color: var(--bronze); }
+
+.guide-details summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--accent-2);
+  padding: 4px 0;
+}
+
+.guide-text { margin: 8px 0; font-size: 0.95rem; }
+.steps { margin: 6px 0 8px; padding-left: 22px; }
+.steps li { margin: 3px 0; }
+
+.missable-note {
+  border-left: 4px solid var(--danger);
+  background: rgba(255, 107, 107, 0.08);
+  padding: 8px 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+}
+
+.source { color: var(--muted); font-size: 0.78rem; margin: 8px 0 0; }
+
+/* ---------- Roadmap / info views ---------- */
+
+.roadmap-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.accent-card { border-top: 4px solid var(--accent); }
+.info-card { margin-bottom: 14px; }
+.info-card h3, .stage-card h3 { margin: 0 0 8px; font-size: 1.12rem; }
+.info-card p, .stage-card p { margin: 0 0 8px; }
+.info-card ul { margin: 6px 0; padding-left: 22px; }
+.info-card li { margin: 4px 0; }
+
+.stage-card { margin-bottom: 14px; border-left: 5px solid var(--accent-2); }
+.stage-goal { font-weight: 700; color: var(--accent-2); }
+
+#missable-cards { margin-top: 4px; margin-bottom: 14px; }
+
+/* ---------- Footer ---------- */
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 18px 24px 28px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  background: var(--bg-soft);
+}
+
+footer p { margin: 0 0 6px; max-width: 880px; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .hero { padding: 20px 16px 14px; }
+  .hero h1 { font-size: 1.45rem; }
+  .tabs { padding: 12px 16px 0; }
+  main { padding: 14px 16px 26px; }
+  .cards { grid-template-columns: 1fr; }
+  .progress-head { flex-direction: column; gap: 2px; }
+}
