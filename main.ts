@@ -1,36 +1,64 @@
-// A working gta6-trophy-guide-01 entry (Node 22, standard library only): the guide is this directory's app/ folder,
-// plain static files a browser opens at app/index.html (ES modules, CSS, no build step), offline: it loads nothing
-// over the network, and its trophy list and guides are app/data/trophies.json. The program hands it in: it copies app/
-// and screenshots/ from beside this file to /output and writes /output/dossier.json, the summary the judge reads (your
-// screenshots, the first load's files and bytes, and your source), with the vendored make.fun library. Leave
-// vendor/makefun-frontend.ts as it is: the scorer requires dossier.json to be byte for byte what its own copy writes.
-//
-// Only the plumbing, not a winner: a plain checklist of the 55 trophies with a one-line hint each. Write a real guide
-// for every trophy in your own words, a roadmap to the platinum, filters and a spoiler setting in app/, put 3 or 4 PNG
-// or JPEG screenshots of it in screenshots/ (the first by name is the cover; shots.json says which views this
-// starter's were taken of), and run it.
-//
-// Serve it locally with `node serve.ts`, then open http://localhost:8080.
-// Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
-//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+// Leonida Legend hand-in program.
+// Copies the offline guide in app/ and any screenshots/ beside this file
+// into the output directory, then writes the dossier the scorer reads.
+// Node 22, standard library only, plus the vendored make.fun library.
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-frontend.ts';
 
+// Pre-flight self-check: fail early with a clear message instead of
+// handing in a broken guide. Both data files must parse, the trophy
+// list must hold exactly 55 entries, and screenshots must respect the
+// dossier caps (at most 4 files, each at most 262144 bytes).
+function preflight(root) {
+  for (const rel of ['app/data/trophies.json', 'app/data/roadmap.json']) {
+    try {
+      JSON.parse(readFileSync(join(root, rel), 'utf8'));
+    } catch (err) {
+      throw new Error('pre-flight failed: ' + rel + ' is not valid JSON (' + err.message + ')');
+    }
+  }
+  const data = JSON.parse(readFileSync(join(root, 'app/data/trophies.json'), 'utf8'));
+  if (!Array.isArray(data.trophies) || data.trophies.length !== 55) {
+    throw new Error('pre-flight failed: expected exactly 55 trophies, found ' + (data.trophies ? data.trophies.length : 'none'));
+  }
+  const shotsDir = join(root, 'screenshots');
+  if (existsSync(shotsDir)) {
+    const shots = readdirSync(shotsDir).filter((f) => /\.(?:png|jpe?g)$/i.test(f));
+    if (shots.length > 4) throw new Error('pre-flight failed: ' + shots.length + ' screenshots, over the cap of 4');
+    for (const f of shots) {
+      const size = statSync(join(shotsDir, f)).size;
+      if (size > 262144) throw new Error('pre-flight failed: screenshot ' + f + ' is ' + size + ' bytes, over 262144');
+    }
+  }
+}
+
+// Directory that contains this file, and where the hand-in goes.
 const here = fileURLToPath(new URL('.', import.meta.url));
-const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+preflight(here);
+const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
-mkdirSync(out, { recursive: true });
-cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
-mkdirSync(join(out, 'screenshots'), { recursive: true });
-if (existsSync(join(here, 'screenshots'))) cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+// Make sure the output root exists before copying anything into it.
+mkdirSync(outDir, { recursive: true });
 
-// The scorer's own caps (reference/gate.json): only text_max_bytes shapes the bytes; the others refuse an entry the
-// scorer would refuse (more than 4 screenshots or one over 256 KiB; more than 993 files and directories in app/ or
-// 48 MiB of app files: app/ counts beside /output's own 1000-entry cap, its screenshots/ and dossier.json).
-writeFileSync(
-  join(out, 'dossier.json'),
-  buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 50331648 }),
-);
+// The guide itself: static files, no build step at serve time.
+cpSync(join(here, 'app'), join(outDir, 'app'), { recursive: true });
+
+// Screenshots are expected by the dossier, so always create the target.
+// Only copy when the source folder is present in this repository.
+mkdirSync(join(outDir, 'screenshots'), { recursive: true });
+const shotsSource = join(here, 'screenshots');
+if (existsSync(shotsSource)) {
+  cpSync(shotsSource, join(outDir, 'screenshots'), { recursive: true });
+}
+
+// Write the dossier with the exact caps the scorer uses, so a local run
+// fails in the same places the scorer would refuse the entry.
+const dossier = buildDossier(outDir, {
+  text_max_bytes: 163840,
+  screenshots: { max: 4, max_bytes: 262144 },
+  app_max_files: 993,
+  app_max_bytes: 50331648,
+});
+writeFileSync(join(outDir, 'dossier.json'), dossier);

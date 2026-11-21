@@ -3,23 +3,70 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Legend — GTA VI Trophy Guide &amp; Platinum Roadmap</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="hero">
+ <div class="wrap">
+  <p class="kicker">UNOFFICIAL FAN GUIDE · PLAYSTATION 5 · 55 TROPHIES</p>
+  <h1>Leonida Legend <span>GTA VI Trophy Guide &amp; Platinum Roadmap</span></h1>
+  <p class="intro">Official trophy names, descriptions and grades come from the PlayStation trophy list. Every guide, roadmap stage and strategy note here is original editorial work. Where an official description is deliberately cryptic, the interpretation offered is honestly labelled as an inference.</p>
+  <section class="progress-card" aria-label="Progress summary">
+   <div class="progress-top"><strong id="prog-text">0 of 55 earned</strong><span id="prog-pct">0%</span></div>
+   <div class="bar"><div id="prog-bar"></div></div>
+   <div class="grade-counts" id="grade-counts"></div>
+   <div class="actions">
+    <button id="export-btn" type="button">Export progress</button>
+    <label class="import-label">Import progress <input id="import-file" type="file" accept=".json,application/json"></label>
+    <button id="reset-btn" type="button">Reset</button>
+   </div>
+  </section>
+  <nav class="tabs" aria-label="Views">
+   <button data-view="guide" class="tab active" type="button">Guide</button>
+   <button data-view="roadmap" class="tab" type="button">Roadmap</button>
+   <button data-view="missables" class="tab" type="button">Missables</button>
+   <button data-view="about" class="tab" type="button">About &amp; sources</button>
+  </nav>
+ </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
-<script type="module" src="app.js"></script>
+<main class="wrap">
+ <section id="view-guide" class="view">
+  <div class="controls">
+   <label>Search <input id="q" type="search" placeholder="Search name, description, guide..."></label>
+   <label>Grade <select id="f-grade"><option value="all">All grades</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
+   <label>Kind <select id="f-kind"><option value="all">All kinds</option></select></label>
+   <label>Status <select id="f-status"><option value="all">All</option><option value="earned">Earned</option><option value="unearned">Unearned</option></select></label>
+   <label class="check"><input id="f-missable" type="checkbox"> Missable only</label>
+   <label class="check"><input id="f-spoiler" type="checkbox" checked> Spoiler protection</label>
+  </div>
+  <p id="result-count" class="muted"></p>
+  <div id="cards" class="cards"></div>
+ </section>
+ <section id="view-roadmap" class="view hidden"></section>
+ <section id="view-missables" class="view hidden"></section>
+ <section id="view-about" class="view hidden">
+  <article class="panel">
+   <h2>About &amp; sources</h2>
+   <h3>How this guide was made</h3>
+   <p>Every trophy entry starts from the official PlayStation 5 list: the name, description and grade are reproduced exactly, in the official order. The guide text, steps, kind, roadmap stage and missable assessment for each trophy are original editorial work written for this guide, grounded in what the official description actually says. Where a description is vague by design, the guide says so, offers the most reasonable reading of its wording, and labels that reading as an inference rather than presenting it as fact.</p>
+   <h3>What is official, what is editorial</h3>
+   <p>Official: trophy names, descriptions, grades and the total of 55. Editorial: all guidance, the six-stage roadmap, difficulty and time estimates, missable flags and strategy notes. Estimates are labelled as estimates wherever they appear. The difficulty framing draws on trophy-design precedent from earlier open-world games in the same tradition, named below, and is not presented as information about unreleased game systems.</p>
+   <h3>Sources, by name</h3>
+   <ul>
+    <li>PlayStation official trophy list for Grand Theft Auto VI on PlayStation 5, dated 2026-11-18 — names, descriptions and grades.</li>
+    <li>Grand Theft Auto V trophy list and 100 percent checklist structure (Rockstar Games, 2013) — precedent for roadmap and completion framing.</li>
+    <li>Red Dead Redemption 2 trophy list (Rockstar Games, 2018) — precedent for difficulty and time estimates.</li>
+   </ul>
+   <h3>Offline &amp; privacy</h3>
+   <p>This guide works fully offline and makes no network requests at run time. Your progress is stored only in your own browser storage on this device; it never leaves the browser except when you choose Export, which downloads a file to your own machine.</p>
+  </article>
+ </section>
+</main>
+<footer class="wrap foot">
+ <p>Unofficial fan guide. Not affiliated with Rockstar Games or PlayStation.</p>
+ <p>Trophy names and descriptions are the official ones from the PlayStation trophy list; all guidance is original editorial work.</p>
+</footer>
+<script src="app.js"></script>
 </body>
 </html>
